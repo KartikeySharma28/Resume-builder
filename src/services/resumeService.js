@@ -2,29 +2,23 @@ const Resume = require('../models/resumeModel');
 const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 
-/**
- * CREATE Resume
- */
+// CREATE
 const createResume = async (data, file) => {
   if (file) {
-    // CloudinaryStorage already uploads the file and sets file.path to the URL
-    data.attachment = file.path;
+    data.attachment = file.path;           // Cloudinary URL
+    data.attachmentPublicId = file.filename; // Cloudinary public_id
   }
 
   const newResume = await Resume.create(data);
   return newResume;
 };
 
-/**
- * READ All Resumes
- */
+// READ all
 const getAllResumes = async () => {
   return await Resume.find({});
 };
 
-/**
- * READ Resume by ID
- */
+// READ one
 const getResumeById = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new Error('Invalid resume ID');
@@ -38,9 +32,7 @@ const getResumeById = async (id) => {
   return resume;
 };
 
-/**
- * UPDATE Resume
- */
+// UPDATE
 const updateResume = async (id, data, file) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new Error('Invalid resume ID');
@@ -51,20 +43,17 @@ const updateResume = async (id, data, file) => {
     throw new Error('Resume not found');
   }
 
-  // If new file uploaded → delete old one from Cloudinary
+  // If new file uploaded → delete old file from Cloudinary
   if (file) {
-    if (existingResume.attachment) {
-      const publicId = existingResume.attachment
-        .split('/')
-        .pop()
-        .split('.')[0];
-
-      await cloudinary.uploader.destroy(`resumes/${publicId}`, {
-        resource_type: 'auto',
-      });
+    if (existingResume.attachmentPublicId) {
+      await cloudinary.uploader.destroy(
+        existingResume.attachmentPublicId,
+        { resource_type: 'raw' }
+      );
     }
 
     data.attachment = file.path;
+    data.attachmentPublicId = file.filename;
   }
 
   const updatedResume = await Resume.findByIdAndUpdate(id, data, {
@@ -75,9 +64,7 @@ const updateResume = async (id, data, file) => {
   return updatedResume;
 };
 
-/**
- * DELETE Resume
- */
+// DELETE
 const deleteResume = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new Error('Invalid resume ID');
@@ -88,16 +75,12 @@ const deleteResume = async (id) => {
     throw new Error('Resume not found');
   }
 
-  // Delete file from Cloudinary
-  if (resume.attachment) {
-    const publicId = resume.attachment
-      .split('/')
-      .pop()
-      .split('.')[0];
-
-    await cloudinary.uploader.destroy(`resumes/${publicId}`, {
-      resource_type: 'auto',
-    });
+  // Delete from Cloudinary
+  if (resume.attachmentPublicId) {
+    await cloudinary.uploader.destroy(
+      resume.attachmentPublicId,
+      { resource_type: 'raw' }
+    );
   }
 
   await resume.deleteOne();

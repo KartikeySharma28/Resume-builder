@@ -9,14 +9,18 @@ const {
 
 const upload = require('../middlewares/resumeUpload');
 
-// CREATE (with file)
+const test = ()=>{
+    console.log('Uploading resume...--------------------------------------------->>');
+}
+
+// CREATE
 router.post('/', upload.single('attachment'), createResume);
 
 // READ
 router.get('/', getAllResume);
 router.get('/:id', getResumeById);
 
-// UPDATE (with file)
+// UPDATE
 router.put('/:id', upload.single('attachment'), updateResume);
 
 // DELETE
