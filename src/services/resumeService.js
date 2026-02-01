@@ -2,23 +2,41 @@ const Resume = require('../models/resumeModel');
 const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 
-// CREATE
+
+const uploadToCloudinary = (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'resumes',
+      },
+      (error, result) => {
+        console.log(' Cloudinary callback:', error || result);  
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
+        console.log(' Sending buffer to stream...');  
+    stream.end(fileBuffer);
+  });
+};
+
 const createResume = async (data, file) => {
+  console.log('Service - createResume data:----------->', file   );
   if (file) {
-    data.attachment = file.path;           // Cloudinary URL
-    data.attachmentPublicId = file.filename; // Cloudinary public_id
+    const uploadResult = await uploadToCloudinary(file.buffer);
+    console.log('Cloudinary upload result:-------------------------30', uploadResult);
+    data.attachment = uploadResult.secure_url;
+    data.attachmentPublicId = uploadResult.public_id;
   }
 
   const newResume = await Resume.create(data);
   return newResume;
 };
 
-// READ all
 const getAllResumes = async () => {
   return await Resume.find({});
 };
 
-// READ one
 const getResumeById = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new Error('Invalid resume ID');
@@ -32,7 +50,6 @@ const getResumeById = async (id) => {
   return resume;
 };
 
-// UPDATE
 const updateResume = async (id, data, file) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw new Error('Invalid resume ID');
@@ -43,7 +60,6 @@ const updateResume = async (id, data, file) => {
     throw new Error('Resume not found');
   }
 
-  // If new file uploaded → delete old file from Cloudinary
   if (file) {
     if (existingResume.attachmentPublicId) {
       await cloudinary.uploader.destroy(
@@ -52,8 +68,10 @@ const updateResume = async (id, data, file) => {
       );
     }
 
-    data.attachment = file.path;
-    data.attachmentPublicId = file.filename;
+    const uploadResult = await uploadToCloudinary(file.buffer);
+
+    data.attachment = uploadResult.secure_url;
+    data.attachmentPublicId = uploadResult.public_id;
   }
 
   const updatedResume = await Resume.findByIdAndUpdate(id, data, {

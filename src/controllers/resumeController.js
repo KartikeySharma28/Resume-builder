@@ -10,7 +10,7 @@ const createResume = async (req, res) => {
   } catch (error) {
     console.error('Create resume error:', error);
     res.status(400).json({ message: error.message });
-  }
+  } 
 };
 
 // READ all
