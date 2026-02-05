@@ -1,5 +1,4 @@
-
-exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
+exports.TemplatePreview5 = function templatePreview5(data = {}, imagePreview) {
   
   const {
     contactInfo = {},
@@ -13,7 +12,7 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
     blogs = [],
     awards = [],
     spokenLanguages = [],
-        __customSectionMeta = [],
+    __customSectionMeta = [],
     ...customValues
   } = data;
 
@@ -47,7 +46,7 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
       display: flex;
       gap: 28px;
       padding: 36px 40px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
       color: #fff;
       position: relative;
       overflow: hidden;
@@ -57,41 +56,11 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
       content: '';
       position: absolute;
       top: -50%;
-      right: -10%;
+      left: -10%;
       width: 400px;
       height: 400px;
       background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
       border-radius: 50%;
-    }
-
-    .photo {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .photo-placeholder {
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
     }
 
     .header-text {
@@ -119,100 +88,86 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
       font-weight: 400;
     }
 
+    .photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+    }
+
     /* ===== BODY ===== */
     .body {
       display: flex;
     }
 
-    /* ===== LEFT SIDEBAR ===== */
+    /* ===== LEFT CONTENT ===== */
     .left {
-      width: 280px;
-      background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
-      padding: 32px 24px;
-      border-right: 1px solid #dee2e6;
-    }
-
-    .block {
-      margin-bottom: 28px;
-    }
-
-    .block:last-child {
-      margin-bottom: 0;
-    }
-
-    .block h3 {
-      margin: 0 0 14px 0;
-      font-size: 14px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #667eea;
-      padding-bottom: 8px;
-      border-bottom: 2px solid #667eea;
-    }
-
-    .block-content {
-      font-size: 13px;
-      line-height: 1.6;
-      color: #495057;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 10px;
-      padding: 8px;
-      border-radius: 6px;
-      word-break: break-word;
-    }
-
-    .contact-item .icon {
-      font-size: 16px;
-      flex-shrink: 0;
-      opacity: 0.7;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .tag {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #fff;
-      padding: 6px 12px;
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 6px;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.25);
-    }
-
-    /* ===== RIGHT CONTENT ===== */
-    .right {
       flex: 1;
       padding: 32px 40px;
       background: #fff;
     }
 
     .section {
-      margin-bottom: 32px;
+      margin-top: 32px;
       break-inside: avoid;
       page-break-inside: avoid;
+      padding-top: 0;
     }
 
     .section:last-child {
       margin-bottom: 0;
     }
 
+    /* Add spacing when content continues to next page */
+    @page {
+      margin: 0;
+    }
+
+    @media print {
+      /* Ensure sections that break to new page have top spacing */
+      .section {
+        margin-top: 0;
+      }
+      
+      /* This ensures proper spacing on page breaks */
+      .left {
+        padding: 32px 40px 32px 40px;
+      }
+      
+      /* Remove top padding from the very first section */
+      .left > .section:first-child {
+        margin-top: 0;
+      }
+    }
+
     .section h2 {
       font-size: 20px;
       font-weight: 700;
-      color: #667eea;
-      border-bottom: 2px solid #667eea;
+      color: #0f766e;
+      border-bottom: 2px solid #0f766e;
       padding-bottom: 8px;
       margin-bottom: 16px;
       letter-spacing: -0.3px;
@@ -267,6 +222,73 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
       margin-top: 8px;
     }
 
+    /* ===== RIGHT SIDEBAR ===== */
+    .right {
+      width: 280px;
+      background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%);
+      padding: 32px 24px;
+      border-left: 1px solid #99f6e4;
+    }
+
+    .block {
+      margin-bottom: 28px;
+    }
+
+    .block:last-child {
+      margin-bottom: 0;
+    }
+
+    .block h3 {
+      margin: 0 0 14px 0;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #0f766e;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #0f766e;
+    }
+
+    .block-content {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #115e59;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      word-break: break-word;
+    }
+
+    .contact-item .icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+    }
+
     /* ===== PRINT STYLES ===== */
     @media print {
       .page {
@@ -275,7 +297,7 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
       }
       
       .header,
-      .left,
+      .right,
       .tag {
         print-color-adjust: exact;
         -webkit-print-color-adjust: exact;
@@ -288,6 +310,11 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
   <div class="page">
     <!-- HEADER -->
     <header class="header">
+      <div class="header-text">
+        <h1>${contactInfo.fullName || "Your Name"}</h1>
+        ${professionalSummary ? `<p class="summary">${professionalSummary}</p>` : ""}
+      </div>
+
       <div class="photo">
         ${
           imagePreview
@@ -295,117 +322,12 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
             : '<div class="photo-placeholder">Photo</div>'
         }
       </div>
-
-      <div class="header-text">
-        <h1>${contactInfo.fullName || "Your Name"}</h1>
-        ${professionalSummary ? `<p class="summary">${professionalSummary}</p>` : ""}
-      </div>
     </header>
 
     <!-- BODY -->
     <div class="body">
       <!-- LEFT -->
-      <aside class="left">
-        ${
-          contactInfo.email ||
-          contactInfo.phone ||
-          contactInfo.location ||
-          contactInfo.linkedin ||
-          contactInfo.github ||
-          contactInfo.portfolio
-            ? `
-        <div class="block">
-          <h3>Contact</h3>
-          <div class="block-content">
-            ${
-              contactInfo.email
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.email}</span>
-            </div>
-            `
-                : ""
-            }
-            ${
-              contactInfo.phone
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.phone}</span>
-            </div>
-            `
-                : ""
-            }
-            ${
-              contactInfo.location
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.location}</span>
-            </div>
-            `
-                : ""
-            }
-            ${
-              contactInfo.linkedin
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.linkedin}</span>
-            </div>
-            `
-                : ""
-            }
-            ${
-              contactInfo.github
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.github}</span>
-            </div>
-            `
-                : ""
-            }
-            ${
-              contactInfo.portfolio
-                ? `
-            <div class="contact-item">
-              <span>${contactInfo.portfolio}</span>
-            </div>
-            `
-                : ""
-            }
-          </div>
-        </div>
-        `
-            : ""
-        }
-
-        ${
-          spokenLanguages.length
-            ? `
-        <div class="block">
-          <h3>Languages</h3>
-          <div class="tags">
-            ${spokenLanguages.map((l) => `<span class="tag">${l}</span>`).join("")}
-          </div>
-        </div>
-        `
-            : ""
-        }
-
-        ${
-          softSkills.length
-            ? `
-        <div class="block">
-          <h3>Soft Skills</h3>
-          <div class="tags">
-            ${softSkills.map((s) => `<span class="tag">${s.title || s}</span>`).join("")}
-          </div>
-        </div>
-        `
-            : ""
-        }
-      </aside>
-
-      <!-- RIGHT -->
-      <main class="right">
+      <main class="left">
         ${
           experience.length
             ? `
@@ -596,6 +518,106 @@ exports.TemplatePreview4 = function templatePreview4(data = {},imagePreview) {
             : ""
         }
       </main>
+
+      <!-- RIGHT -->
+      <aside class="right">
+        ${
+          contactInfo.email ||
+          contactInfo.phone ||
+          contactInfo.location ||
+          contactInfo.linkedin ||
+          contactInfo.github ||
+          contactInfo.portfolio
+            ? `
+        <div class="block">
+          <h3>Contact</h3>
+          <div class="block-content">
+            ${
+              contactInfo.email
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.email}</span>
+            </div>
+            `
+                : ""
+            }
+            ${
+              contactInfo.phone
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.phone}</span>
+            </div>
+            `
+                : ""
+            }
+            ${
+              contactInfo.location
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.location}</span>
+            </div>
+            `
+                : ""
+            }
+            ${
+              contactInfo.linkedin
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.linkedin}</span>
+            </div>
+            `
+                : ""
+            }
+            ${
+              contactInfo.github
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.github}</span>
+            </div>
+            `
+                : ""
+            }
+            ${
+              contactInfo.portfolio
+                ? `
+            <div class="contact-item">
+              <span>${contactInfo.portfolio}</span>
+            </div>
+            `
+                : ""
+            }
+          </div>
+        </div>
+        `
+            : ""
+        }
+
+        ${
+          spokenLanguages.length
+            ? `
+        <div class="block">
+          <h3>Languages</h3>
+          <div class="tags">
+            ${spokenLanguages.map((l) => `<span class="tag">${l}</span>`).join("")}
+          </div>
+        </div>
+        `
+            : ""
+        }
+
+        ${
+          softSkills.length
+            ? `
+        <div class="block">
+          <h3>Soft Skills</h3>
+          <div class="tags">
+            ${softSkills.map((s) => `<span class="tag">${s.title || s}</span>`).join("")}
+          </div>
+        </div>
+        `
+            : ""
+        }
+      </aside>
     </div>
   </div>
 </body>

@@ -1,3 +1,5 @@
+const UploadToCloudinary = require("../utils/uploadToCloudinary");
+
 const puppeteer = require("puppeteer");
 const {
     TemplatePreview1
@@ -12,33 +14,44 @@ const {
 const {
     TemplatePreview4
 } = require("../templates/templatePreview4");
- 
+
+const {
+    TemplatePreview5
+} = require("../templates/templatePreview5");
+
 const generatePDF = async (req, res) => {
-    console.log(
-  resumeData?.contactInfo?.photo?.slice(0, 50)
-);
+    debugger
     try {
-        const {
-            resumeData,
-            selectedTemplate
-        } = req.body;
+
         const templateMap = {
             TemplatePreview1,
             TemplatePreview2,
             TemplatePreview3,
             TemplatePreview4,
+            TemplatePreview5,
         };
+        let imageUrl = null;
+        console.log('PDF generation request file:', req.body);
+        if (req.file) {
+            const uploadResult = await UploadToCloudinary(req.file.buffer);
+            imageUrl = uploadResult.secure_url;
+        }
+        const rawData = req.body.data;
 
-        const html = templateMap[selectedTemplate]?.(resumeData);
+        const parsed = JSON.parse(rawData);
 
+        const {
+            resumeData,
+            selectedTemplate
+        } = parsed;
+
+        const html = templateMap[selectedTemplate]?.(resumeData, imageUrl);
         if (!html) {
             return res.status(400).json({
                 error: "Invalid template"
             });
         }
-
-
-        // 2️⃣ Launch headless Chrome
+        debugger;
         const browser = await puppeteer.launch({
             headless: "new",
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -55,7 +68,6 @@ const generatePDF = async (req, res) => {
         const pdfBuffer = await page.pdf({
             format: "A4",
             printBackground: true,
-            
 
         });
 
