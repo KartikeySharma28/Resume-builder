@@ -1,0 +1,132 @@
+/* ===== PAGE SETUP ===== */
+@page {
+  size: A4;
+  margin: 20mm;
+}
+
+/* Remove browser default margins for print */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== AGGRESSIVE PAGE BREAK CONTROL ===== */
+
+/* Prevent header from breaking */
+.header {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* CRITICAL: Keep entire sections together */
+.section {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  orphans: 4;
+  widows: 4;
+  /* Add minimum height to trigger page break if not enough space */
+  min-height: 60px;
+}
+
+/* Keep items together */
+.item {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+  orphans: 2;
+  widows: 2;
+}
+
+/* CRITICAL: Keep section headings with ALL their content */
+.section h2 {
+  break-after: avoid !important;
+  page-break-after: avoid !important;
+  orphans: 4;
+  /* Add padding to ensure content follows */
+  padding-bottom: 2px;
+}
+
+/* Prevent ANY list from breaking */
+.section ul,
+.section ol,
+.tags {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* List items */
+.section li,
+.tags li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Force page break when needed */
+.force-page-break {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+
+/* ===== PRINT-SPECIFIC ADJUSTMENTS ===== */
+@media print {
+  /* Remove any max-width constraints */
+  .resume {
+    max-width: none;
+    margin: 0;
+    padding: 20mm;
+  }
+  
+  body {
+    margin: 0;
+  }
+  
+  /* Ensure sections have proper spacing */
+  .section {
+    margin-top: 26px;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* First section should not have top margin */
+  .section:first-of-type {
+    margin-top: 0;
+  }
+  
+  /* Prevent orphaned headings */
+  h1, h2, h3 {
+    break-after: avoid !important;
+    page-break-after: avoid !important;
+  }
+  
+  /* Items spacing */
+  .item {
+    margin-bottom: 14px;
+  }
+  
+  /* Convert flex tags to inline-block for better print handling */
+  .tags {
+    display: block !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .tags li {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 4px;
+  }
+  
+  /* Ensure header stays at top of first page */
+  .header {
+    margin-bottom: 20px;
+  }
+}
+
+/* ===== BACKUP STRATEGY ===== */
+/* If a section would break, add padding to push it to next page */
+.section::before {
+  content: '';
+  display: block;
+  height: 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}

@@ -1,0 +1,58 @@
+/* ===== PAGE SETUP ===== */
+@page {
+  size: A4;
+  margin: 0;
+}
+
+/* Reset default margins */
+body {
+  margin: 0;
+}
+
+/* Remove visual-only effects in PDF */
+.page {
+  margin: 0;
+  box-shadow: none;
+  width: 100%;
+}
+
+/* Preserve background colors */
+.top,
+.left,
+.tag {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ===== PAGE BREAK CONTROL ===== */
+
+/* Never cut sections */
+.section {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Never cut items */
+.item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Avoid orphaned headings */
+.section h2 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+/* Lists should stay together */
+ul,
+li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Manual page break utility */
+.force-page-break {
+  break-before: page;
+  page-break-before: always;
+}

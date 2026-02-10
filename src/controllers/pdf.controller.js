@@ -1,4 +1,4 @@
-const UploadToCloudinary = require("../utils/uploadToCloudinary");
+    const UploadToCloudinary = require("../utils/uploadToCloudinary");
 
 const puppeteer = require("puppeteer");
 const {

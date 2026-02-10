@@ -5,7 +5,7 @@ const {
   getResumeById,
   updateResume,
   deleteResume,
-} = require('../controllers/resumeController');
+} = require('../controllers/resumeControllerold');
 
 const upload = require('../middlewares/resumeUpload');
 

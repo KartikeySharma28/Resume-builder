@@ -1,3 +1,16 @@
+const fs = require("fs");
+const path = require("path");
+
+const css = fs.readFileSync(
+  path.join(__dirname, "template1/base.css"),
+  "utf8"
+);
+const printCss = fs.readFileSync(
+  path.join(__dirname, "template1/print.css"),
+  "utf8"
+);
+
+  
 exports.TemplatePreview1 = function templatePreview1(data = {}) {
     const {
         contactInfo = {},
@@ -20,81 +33,8 @@ exports.TemplatePreview1 = function templatePreview1(data = {}) {
 <html>
 <head>
   <meta charset="UTF-8" />
-  <style>
-    body {
-      max-width: 820px;
-      margin: 10px auto;
-      padding: 10px;
-      background: #fff;
-      color: #000;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+    <style>${css}</style>
 
-    .header {
-      text-align: center;
-      border-bottom: 2px solid #000;
-      padding-bottom: 12px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    .header p {
-      margin: 4px 0;
-      font-size: 14px;
-    }
-
-    .links {
-      font-size: 13px;
-    }
-
-    .section {
-      margin-top: 26px;
-      margin-button: 16px;
-      break-inside: avoid;
-  page-break-inside: avoid;
-  page-break-before: auto;
-    }
-    .section h2 {
-      font-size: 18px;
-      border-bottom: 1px solid #000;
-      margin-bottom: 10px;
-      break-after: avoid;
-  page-break-after: avoid;
-    }
-
-    .item {
-      margin-bottom: 14px;
-      font-size: 14px;
-       break-inside: avoid;
-  page-break-inside: avoid;
-    }
-
-    .date {
-      font-size: 13px;
-      color: #333;
-    }
-
-    .tags {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .tags li {
-      padding: 4px 8px;
-      font-size: 13px;
-
-      .force-page-break {
-  break-before: page;
-  page-break-before: always;
-}
-    }
-  </style>
 </head>
 
 <body>

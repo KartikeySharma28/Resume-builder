@@ -1,4 +1,4 @@
-const Resume = require('../models/resumeModel');
+const Resume = require('../models/Resume');
 const mongoose = require('mongoose');
 const cloudinary = require('../config/cloudinary');
 
