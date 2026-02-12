@@ -10,7 +10,6 @@ const {
 const upload = require('../middlewares/resumeUpload');
 
 const test = ()=>{
-    console.log('Uploading resume...--------------------------------------------->>');
 }
 
 // CREATE

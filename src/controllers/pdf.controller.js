@@ -31,7 +31,6 @@ const generatePDF = async (req, res) => {
             TemplatePreview5,
         };
         let imageUrl = null;
-        console.log('PDF generation request file:', req.body);
         if (req.file) {
             const uploadResult = await UploadToCloudinary(req.file.buffer);
             imageUrl = uploadResult.secure_url;

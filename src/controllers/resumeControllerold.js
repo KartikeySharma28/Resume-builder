@@ -3,8 +3,6 @@ const resumeService = require('../services/resumeService');
 // CREATE
 const createResume = async (req, res) => {
   try {
-    console.log('Create resume request body:', req.body);
-    console.log('Create resume request file:', req.file);
     const resume = await resumeService.createResume(req.body, req.file);
     res.status(201).json(resume);
   } catch (error) {
