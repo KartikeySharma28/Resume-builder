@@ -48,12 +48,10 @@
 }
 
 .tags {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  list-style-type: disc;
+  padding-left: 20px;
 }
+
 
 .tags li {
   padding: 4px 8px;
