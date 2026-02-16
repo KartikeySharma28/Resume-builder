@@ -1,58 +1,132 @@
-/* ===== PAGE SETUP ===== */
 @page {
   size: A4;
   margin: 0;
 }
 
-/* Reset default margins */
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
-/* Remove visual-only effects in PDF */
-.page {
-  margin: 0;
-  box-shadow: none;
-  width: 100%;
-}
-
-/* Preserve background colors */
-.top,
-.left,
-.tag {
+html, body {
+  width: 210mm;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-/* ===== PAGE BREAK CONTROL ===== */
+/*
+  TWO fixed-position divs repeat on EVERY Puppeteer printed page.
+  .sidebar-bg = left sidebar gradient stripe
+  .right-bg   = right content white area
+*/
+.sidebar-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  border-right: 1px solid #dee2e6;
+  z-index: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
-/* Never cut sections */
+.right-bg {
+  position: fixed;
+  top: 0;
+  left: 280px;
+  right: 0;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Page wrapper — above fixed background divs */
+.page {
+  position: relative;
+  z-index: 1;
+  width: 210mm;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Header — full width, page 1 only naturally */
+.header1 {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Body flex row */
+.body {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  min-height: unset;
+  position: relative;
+  z-index: 2;
+}
+
+/* Sidebar — transparent, .sidebar-bg provides background */
+.left {
+  width: 280px;
+  flex-shrink: 0;
+  background: transparent;
+  border-right: none;
+}
+
+/* Right content — transparent, .right-bg provides white */
+/* padding-top gives breathing room at top of every page on right side only */
+.right {
+  flex: 1;
+  background: transparent;
+  /* padding-top: 8mm; */
+}
+
+/* Section flows across pages — entries stay together */
 .section {
-  break-inside: avoid;
-  page-break-inside: avoid;
+  break-inside: auto;
+  page-break-inside: auto;
 }
 
-/* Never cut items */
-.item {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-/* Avoid orphaned headings */
 .section h2 {
   break-after: avoid;
   page-break-after: avoid;
 }
 
-/* Lists should stay together */
-ul,
-li {
+.entry {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-/* Manual page break utility */
-.force-page-break {
-  break-before: page;
-  page-break-before: always;
+.entryDescription {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.entryDescription ul,
+.entryDescription ol {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.entryDescription li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Force print colors */
+.header1,
+.sidebar-bg,
+.block h3,
+.tag,
+.section h2 {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }

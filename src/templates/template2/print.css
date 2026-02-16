@@ -1,116 +1,58 @@
-/* ===== PAGE SETUP ===== */
 @page {
   size: A4;
   margin: 0;
 }
 
-/* Remove browser default margins */
 body {
   margin: 0;
   padding: 0;
 }
 
-/* Main resume container - ensure proper layout on print */
-.resume-2 {
-  margin: 0 !important;
-  box-shadow: none !important;
-  width: 210mm !important;
-  min-height: 297mm;
-  display: flex;
+/* Each Page */
+.page {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  page-break-after: always;
+  overflow: hidden;
 }
 
-/* Ensure sidebar background prints correctly and extends full height */
+/* Sidebar (First Page Only) */
 .sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  padding: 28mm 14mm;
+  background: linear-gradient(165deg, #1a1a2e 0%, #16213e 100%);
+  color: white;
+
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
-  min-height: 297mm;
-  break-inside: avoid;
-  page-break-inside: avoid;
-  padding-top: 28mm !important;
-  padding-bottom: 28mm !important;
 }
 
-/* Content area adjustments for multi-page */
+/* Sidebar Background Only (Other Pages) */
+.sidebar-bg-only {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(165deg, #1a1a2e 0%, #16213e 100%);
+
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Content Area */
 .content {
-  min-height: 297mm;
-  padding-top: 28mm !important;
-  padding-bottom: 28mm !important;
-}
-
-/* ===== PAGE BREAK CONTROL ===== */
-
-/* Prevent sections from breaking in the middle */
-section {
-  break-inside: avoid-page;
-  page-break-inside: avoid;
-  orphans: 3;
-  widows: 3;
-}
-
-/* Keep section headings with their content */
-section h2 {
-  break-after: avoid-page;
-  page-break-after: avoid;
-  orphans: 3;
-}
-
-/* Individual items should try to stay together */
-.item {
-  break-inside: avoid-page;
-  page-break-inside: avoid;
-}
-
-/* Experience items */
-section > div:not(.item) {
-  break-inside: avoid-page;
-  page-break-inside: avoid;
-}
-
-/* Avoid breaking inside lists */
-ul {
-  break-inside: avoid-page;
-  page-break-inside: avoid;
-}
-
-li {
-  orphans: 2;
-  widows: 2;
-}
-
-/* Force page break if needed */
-.force-page-break {
-  break-before: page;
-  page-break-before: always;
-}
-
-/* ===== MULTI-PAGE LAYOUT FIX ===== */
-
-/* When content flows to second page, maintain the two-column layout */
-@media print {
-  /* Ensure the flex layout continues across pages */
-  .resume-2 {
-    display: flex;
-    flex-wrap: nowrap;
-  }
-  
-  /* Sidebar should remain fixed width */
-  .sidebar {
-    width: 35%;
-    position: relative;
-    float: left;
-  }
-  
-  /* Content should flow naturally */
-  .content {
-    width: 65%;
-    position: relative;
-  }
-  
-  /* Maintain proper spacing */
-  .content::after {
-    content: "";
-    display: block;
-    height: 0;
-    clear: both;
-  }
+  position: absolute;
+  top: 0;
+  left: 35%;
+  width: 65%;
+  height: 100%;
+  padding: 28mm 22mm;
+  box-sizing: border-box;
+  overflow: hidden;
 }

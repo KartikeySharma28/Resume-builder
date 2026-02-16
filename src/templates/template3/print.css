@@ -1,58 +1,147 @@
-/* ===== PAGE SETUP ===== */
 @page {
   size: A4;
   margin: 0;
 }
 
-/* Reset default margins */
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
-/* Remove visual-only effects in PDF */
-.page {
-  margin: 0;
-  box-shadow: none;
-  width: 100%;
-}
-
-/* Preserve background colors */
-.top,
-.left,
-.tag {
+html, body {
+  width: 210mm;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-/* ===== PAGE BREAK CONTROL ===== */
+/*
+  THE SIDEBAR BACKGROUND FIX:
+  Two fixed-position <div>s are injected into the HTML by templatePreview3.js.
+  position:fixed in Puppeteer print mode renders on EVERY page — 
+  unlike pseudo-elements, body backgrounds, or flexbox stretch which all 
+  only cover the content height.
+  
+  .sidebar-bg  = left 32% — the grey sidebar stripe
+  .right-bg    = right 68% — white, covers the stripe on the content side
+*/
+.sidebar-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32%;
+  height: 100vh;
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  z-index: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
-/* Never cut sections */
+.right-bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 68%;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Page wrapper — above the fixed background divs */
+.page {
+  position: relative;
+  z-index: 1;
+  width: 210mm;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Header */
+.top1 {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Main flex row */
+.main {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  min-height: unset;
+  position: relative;
+  z-index: 2;
+}
+
+/* Sidebar — transparent, .sidebar-bg provides background */
+.left {
+  width: 32%;
+  flex-shrink: 0;
+  background: transparent;
+  border-right: none;
+}
+
+/* Right content — transparent, .right-bg provides white background */
+.right {
+  width: 68%;
+  flex: 1;
+  background: transparent;
+  /* padding-top: 8mm; */
+}
+.top1 + .main .right {
+  padding-top: 0;
+}
+
+/* Add top breathing space for content blocks */
 .section {
-  break-inside: avoid;
-  page-break-inside: avoid;
+  /* margin-top: 6mm; */
 }
 
-/* Never cut items */
-.item {
-  break-inside: avoid;
-  page-break-inside: avoid;
+
+/* Sections flow across pages, items stay together */
+.section {
+  break-inside: auto;
+  page-break-inside: auto;
 }
 
-/* Avoid orphaned headings */
 .section h2 {
   break-after: avoid;
   page-break-after: avoid;
 }
 
-/* Lists should stay together */
-ul,
-li {
+.item {
   break-inside: avoid;
   page-break-inside: avoid;
 }
 
-/* Manual page break utility */
-.force-page-break {
-  break-before: page;
-  page-break-before: always;
+/* Prevent rich-text description content from breaking independently */
+.desc {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.desc ul,
+.desc ol {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.desc li {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.top1,
+.sidebar-bg,
+.left h3,
+.tag,
+.item::before,
+.section h2 {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }

@@ -2,12 +2,12 @@ const fs = require("fs");
 const path = require("path");
 
 const css = fs.readFileSync(
-  path.join(__dirname, "template1/base.css"),
+  path.join(__dirname, "base.css"),
   "utf8"
 );
 
 const printCss = fs.readFileSync(
-  path.join(__dirname, "template1/print.css"),
+  path.join(__dirname, "print.css"),
   "utf8"
 );
 
